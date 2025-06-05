@@ -22,8 +22,8 @@ int main() {
     setlocale(LC_ALL, "Russian");
 
     Queue oddQueue, evenQueue;
-    oddQueue.initialize();
-    evenQueue.initialize();
+    oddQueue.Initialize();
+    evenQueue.Initialize();
 
     std::cout << "Введите 10 чисел:\n";
     for (int i = 1; i <= 10; i++) {
@@ -37,19 +37,19 @@ int main() {
         }
 
         if (i % 2 != 0) {
-            oddQueue.enqueue(number);
+            oddQueue.Enqueue(number);
         } else {
-            evenQueue.enqueue(number);
+            evenQueue.Enqueue(number);
         }
     }
 
     std::cout << "\nНечетная очередь:\n";
-    oddQueue.print();
-    oddQueue.printPointers();
+    oddQueue.Print();
+    oddQueue.PrintPointers();
 
     std::cout << "\nЧетная очередь:\n";
-    evenQueue.print();
-    evenQueue.printPointers();
+    evenQueue.Print();
+    evenQueue.PrintPointers();
 
     return 0;
 }
