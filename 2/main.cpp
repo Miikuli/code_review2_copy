@@ -34,6 +34,7 @@ int main() {
             return 0;
         }
 
+        // Распределение чисел по очередям
         if (i % 2 != 0) {
             oddQueue.Enqueue(number);
         } else {
