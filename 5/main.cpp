@@ -12,56 +12,95 @@
 одноименной функцией-членом контейнера).
 */
 
+#include "containers.h"
+#include <limits>
 
-#include "container_utils.h"
-#include <iostream>
-
-void PrintCat() {
-    std::cout << "      /\\     /\\  \n"
-              << "     {  `---'  } \n"
-              << "     {  O   O  } \n"
-              << "     ~~>  V  <~~ \n";
+void printMenu() {
+    std::cout << "\nChoose input method:\n"
+              << "1. Keyboard input\n"
+              << "2. Random generation\n"
+              << "3. Read from file\n"
+              << "Your choice: ";
 }
 
-int main() {
+void processContainer(const std::string& containerName) {
     std::vector<int> vec;
     std::deque<int> deq;
     std::list<int> lst;
 
     size_t size;
+    int method;
+
+    std::cout << "\n=== Processing " << containerName << " ===";
     
-    std::cout << "Enter vector size (>=2 and even): ";
-    std::cin >> size;
-    if (!FillContainer(vec, size)) return 1;
+    while (true) {
+        std::cout << "\nEnter size (even >=2): ";
+        if (!(std::cin >> size) || size < 2 || size % 2 != 0) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid size. Must be even number >= 2\n";
+            continue;
+        }
+        break;
+    }
 
-    std::cout << "Enter deque size (>=2 and even): ";
-    std::cin >> size;
-    if (!FillContainer(deq, size)) return 1;
+    while (true) {
+        printMenu();
+        if (!(std::cin >> method) || method < 1 || method > 3) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid choice. Please enter 1-3\n";
+            continue;
+        }
+        break;
+    }
 
-    std::cout << "Enter list size (>=2 and even): ";
-    std::cin >> size;
-    if (!FillContainer(lst, size)) return 1;
+    bool success = false;
+    if (containerName == "vector") {
+        success = ContainerUtils::FillContainer(vec, size, static_cast<ContainerUtils::InputMethod>(method));
+    } else if (containerName == "deque") {
+        success = ContainerUtils::FillContainer(deq, size, static_cast<ContainerUtils::InputMethod>(method));
+    } else {
+        success = ContainerUtils::FillContainer(lst, size, static_cast<ContainerUtils::InputMethod>(method));
+    }
 
-    std::cout << "\nOriginal containers:\n";
-    std::cout << "Vector: ";
-    PrintContainer(vec);
-    std::cout << "Deque:  ";
-    PrintContainer(deq);
-    std::cout << "List:   ";
-    PrintContainer(lst);
+    if (!success) {
+        std::cerr << "Failed to fill container\n";
+        return;
+    }
 
-    SwapMiddleElements(vec);
-    SwapMiddleElements(deq);
-    SwapMiddleElements(lst);
+    std::cout << "\n" << containerName << " contents:\n";
+    if (containerName == "vector") {
+        ContainerUtils::PrintContainer(vec);
+        std::cout << "Reversed: ";
+        ContainerUtils::PrintReverse(vec);
+        ContainerUtils::SwapMiddleElements(vec);
+        std::cout << "After swap: ";
+        ContainerUtils::PrintContainer(vec);
+    } else if (containerName == "deque") {
+        ContainerUtils::PrintContainer(deq);
+        std::cout << "Reversed: ";
+        ContainerUtils::PrintReverse(deq);
+        ContainerUtils::SwapMiddleElements(deq);
+        std::cout << "After swap: ";
+        ContainerUtils::PrintContainer(deq);
+    } else {
+        ContainerUtils::PrintContainer(lst);
+        std::cout << "Reversed: ";
+        ContainerUtils::PrintReverse(lst);
+        ContainerUtils::SwapMiddleElements(lst);
+        std::cout << "After swap: ";
+        ContainerUtils::PrintContainer(lst);
+    }
+}
 
-    std::cout << "\nAfter swapping middle elements:\n";
-    std::cout << "Vector: ";
-    PrintContainer(vec);
-    std::cout << "Deque:  ";
-    PrintContainer(deq);
-    std::cout << "List:   ";
-    PrintContainer(lst);
+int main() {
+    std::cout << "=== Container Processing Program ===\n";
 
-    PrintCat();
+    processContainer("vector");
+    processContainer("deque");
+    processContainer("list");
+
+    std::cout << "\nProgram completed successfully.\n";
     return 0;
 }
