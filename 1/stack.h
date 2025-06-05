@@ -61,41 +61,41 @@ public:
      * @brief Добавление элемента в стек
      * @param value Значение для добавления
      */
-    void push(int value);
+    void Push(int value);
     
     /**
      * @brief Удаление элемента из стека
      * 
      * Удаляет и возвращает элемент с вершины стека
      */
-    void pop();
+    void Pop();
     
     /**
      * @brief Вывод содержимого стека
      * 
      * Выводит все элементы стека, начиная с вершины
      */
-    void print();
+    void Print();
     
     /**
      * @brief Получение указателя на вершину стека
      * @return Указатель на вершину стека
      */
-    Node* getTop();
+    Node* GetTop();
     
     /**
      * @brief Очистка стека
      * 
      * Удаляет все элементы из стека и освобождает память
      */
-    void clearStack();
+    void ClearStack();
     
     /**
      * @brief Дружественная функция для добавления элемента и вывода адреса вершины
      * @param stack Стек для работы
      * @param D Значение для добавления
      */
-    friend void addElementAndPrintAddress(Stack& stack, int D);
+    friend void AddElementAndPrintAddress(Stack& stack, int D);
 };
 
 /**
@@ -103,6 +103,6 @@ public:
  * @param stack Стек для работы
  * @param D Значение для добавления
  */
-void addElementAndPrintAddress(Stack& stack, int D);
+void AddElementAndPrintAddress(Stack& stack, int D);
 
 #endif // STACK_H
