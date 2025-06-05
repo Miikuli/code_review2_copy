@@ -12,95 +12,123 @@
 одноименной функцией-членом контейнера).
 */
 
+#include "containers.h"
 
-#include "container_utils.h"
+template<typename Container>
+bool ContainerUtils::FillContainer(Container& container, size_t size, InputMethod method) {
+    container.clear();
 
-template <typename Container>
-bool FillContainer(Container& container, size_t size) {
     if (size < 2 || size % 2 != 0) {
-        std::cerr << "Error: Size must be >= 2 and even\n";
+        std::cerr << "Error: Size must be even and >= 2\n";
         return false;
     }
 
-    int choice;
-    std::cout << "Choose input method:\n"
-              << "1) Keyboard\n"
-              << "2) Random\n"
-              << "3) From file\n"
-              << "Your choice: ";
-    std::cin >> choice;
+    try {
+        switch (method) {
+            case KEYBOARD: {
+                std::cout << "Enter " << size << " integer elements:\n";
+                for (size_t i = 0; i < size; ++i) {
+                    int value;
+                    while (!(std::cin >> value)) {
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        std::cerr << "Invalid input. Please enter an integer: ";
+                    }
+                    container.insert(container.end(), value);
+                }
+                break;
+            }
+            case RANDOM: {
+                std::srand(static_cast<unsigned>(std::time(nullptr)));
+                std::generate_n(std::back_inserter(container), size, []() {
+                    return std::rand() % 100;
+                });
+                std::cout << "Generated " << size << " random elements\n";
+                break;
+            }
+            case FILE_INPUT: {
+                std::string filename;
+                std::cout << "Enter filename: ";
+                std::cin >> filename;
 
-    switch (choice) {
-        case 1: {
-            std::cout << "Enter " << size << " elements:\n";
-            for (size_t i = 0; i < size; ++i) {
-                int value;
-                std::cout << "Element " << i + 1 << ": ";
-                if (!(std::cin >> value)) {
-                    std::cerr << "Invalid input\n";
+                std::ifstream file(filename);
+                if (!file.is_open()) {
+                    std::cerr << "Error: Cannot open file " << filename << "\n";
                     return false;
                 }
-                container.insert(container.end(), value);
+
+                int value;
+                size_t count = 0;
+                while (file >> value && count < size) {
+                    container.insert(container.end(), value);
+                    count++;
+                }
+
+                if (count < size) {
+                    std::cerr << "Error: File contains only " << count << " elements\n";
+                    container.clear();
+                    return false;
+                }
+                break;
             }
-            break;
-        }
-        case 2: {
-            std::srand(std::time(0));
-            for (size_t i = 0; i < size; ++i) {
-                container.insert(container.end(), std::rand() % 101 - 50);
-            }
-            break;
-        }
-        case 3: {
-            std::ifstream file("input.txt");
-            if (!file.is_open()) {
-                std::cerr << "Failed to open file\n";
+            default:
+                std::cerr << "Error: Invalid input method\n";
                 return false;
-            }
-            for (size_t i = 0; i < size; ++i) {
-                int value;
-                if (!(file >> value)) {
-                    std::cerr << "Not enough data in file\n";
-                    return false;
-                }
-                container.insert(container.end(), value);
-            }
-            break;
         }
-        default:
-            std::cerr << "Invalid choice\n";
-            return false;
+        return true;
+    } catch (...) {
+        std::cerr << "Error: Exception occurred during container filling\n";
+        return false;
     }
-    return true;
 }
 
-template <typename Container>
-void PrintContainer(const Container& container) {
-    typedef typename Container::const_iterator Iterator;
-    for (Iterator it = container.begin(); it != container.end(); ++it) {
-        std::cout << *it << " ";
-    }
+template<typename Container>
+void ContainerUtils::PrintContainer(const Container& container) {
+    std::copy(container.begin(), container.end(), 
+              std::ostream_iterator<int>(std::cout, " "));
     std::cout << "\n";
 }
 
-template <typename Container>
-void SwapMiddleElements(Container& container) {
-    typename Container::iterator middle1 = container.begin();
-    std::advance(middle1, container.size() / 2 - 1);
-    typename Container::iterator middle2 = middle1;
-    std::advance(middle2, 1);
-    std::swap(*middle1, *middle2);
+template<typename Container>
+void ContainerUtils::PrintReverse(const Container& container) {
+    std::copy(container.rbegin(), container.rend(), 
+              std::ostream_iterator<int>(std::cout, " "));
+    std::cout << "\n";
 }
 
-// Явные инстанциации шаблонов
-template bool FillContainer(std::vector<int>&, size_t);
-template bool FillContainer(std::deque<int>&, size_t);
-template bool FillContainer(std::list<int>&, size_t);
+template<typename Container>
+bool ContainerUtils::SwapMiddleElements(Container& container) {
+    if (container.size() < 2 || container.size() % 2 != 0) {
+        std::cerr << "Error: Container size must be even and >= 2\n";
+        return false;
+    }
 
-template void PrintContainer(const std::vector<int>&);
-template void PrintContainer(const std::deque<int>&);
-template void PrintContainer(const std::list<int>&);
+    try {
+        auto mid1 = container.begin();
+        std::advance(mid1, container.size()/2 - 1);
+        auto mid2 = mid1;
+        std::advance(mid2, 1);
+        std::iter_swap(mid1, mid2);
+        return true;
+    } catch (...) {
+        std::cerr << "Error: Exception during swap operation\n";
+        return false;
+    }
+}
 
-template void SwapMiddleElements(std::vector<int>&);
-template void SwapMiddleElements(std::deque<int>&);
-template void SwapMiddleElements(std::list<int>&);
+// Явные инстанциации
+template bool ContainerUtils::FillContainer(std::vector<int>&, size_t, InputMethod);
+template bool ContainerUtils::FillContainer(std::deque<int>&, size_t, InputMethod);
+template bool ContainerUtils::FillContainer(std::list<int>&, size_t, InputMethod);
+
+template void ContainerUtils::PrintContainer(const std::vector<int>&);
+template void ContainerUtils::PrintContainer(const std::deque<int>&);
+template void ContainerUtils::PrintContainer(const std::list<int>&);
+
+template void ContainerUtils::PrintReverse(const std::vector<int>&);
+template void ContainerUtils::PrintReverse(const std::deque<int>&);
+template void ContainerUtils::PrintReverse(const std::list<int>&);
+
+template bool ContainerUtils::SwapMiddleElements(std::vector<int>&);
+template bool ContainerUtils::SwapMiddleElements(std::deque<int>&);
+template bool ContainerUtils::SwapMiddleElements(std::list<int>&);
