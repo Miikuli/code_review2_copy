@@ -61,25 +61,25 @@ public:
      * @brief Вставка элемента с сохранением упорядоченности
      * @param value Значение для вставки
      */
-    void insertSorted(int value);
+    void InsertSorted(int value);
     
     /**
      * @brief Вывод элементов списка
      */
-    void print();
+    void Print();
     
     /**
      * @brief Чтение данных из файла
      * @param filename Имя файла для чтения
      */
-    void readFromFile(const std::string& filename);
+    void ReadFromFile(const std::string& filename);
     
     /**
      * @brief Дружественная функция для чтения из файла
      * @param list Список для заполнения
      * @param filename Имя файла для чтения
      */
-    friend void readFromFile(LinkedList& list, const std::string& filename);
+    friend void ReadFromFile(LinkedList& list, const std::string& filename);
 };
 
 #endif // LINKED_LIST_H
