@@ -12,7 +12,6 @@
 одноименной функцией-членом контейнера).
 */
 
-
 #ifndef CONTAINER_UTILS_H
 #define CONTAINER_UTILS_H
 
@@ -29,9 +28,10 @@
  * @tparam Container Тип контейнера
  * @param container Контейнер для заполнения
  * @param size Размер контейнера (должен быть ≥ 2 и четным)
+ * @return true при успешном заполнении, false при ошибке
  */
 template <typename Container>
-void FillContainer(Container& container, size_t size);
+bool FillContainer(Container& container, size_t size);
 
 /**
  * @brief Вывод элементов контейнера
