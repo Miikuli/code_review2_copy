@@ -11,19 +11,67 @@
 
 #include "linked_list.h"
 #include <iostream>
-#include <string>
 
 int main() {
+    setlocale(LC_ALL, "Russian");
     LinkedList list;
-    std::string filename;
+    
+    std::cout << "=== Демонстрация работы упорядоченного списка ===\n\n";
 
+    // 1. Проверка на пустоту
+    std::cout << "1. Проверка пустого списка:\n";
+    std::cout << "Список пуст? " << (list.IsEmpty() ? "Да" : "Нет") << "\n\n";
+
+    // 2. Добавление элементов
+    std::cout << "2. Добавление элементов 5, 3, 7, 1:\n";
+    list.InsertSorted(5);
+    list.InsertSorted(3);
+    list.InsertSorted(7);
+    list.InsertSorted(1);
+    std::cout << "Текущий список: ";
+    list.Print();
+    std::cout << "Список пуст? " << (list.IsEmpty() ? "Да" : "Нет") << "\n\n";
+
+    // 3. Удаление элементов
+    std::cout << "3. Удаление элементов:\n";
+    std::cout << "Удаляем 3: " << (list.DeleteValue(3) ? "Успешно" : "Не найдено") << "\n";
+    std::cout << "Удаляем 10: " << (list.DeleteValue(10) ? "Успешно" : "Не найдено") << "\n";
+    std::cout << "Текущий список: ";
+    list.Print();
+    std::cout << "\n";
+
+    // 4. Чтение из файла
+    std::cout << "4. Чтение данных из файла:\n";
+    std::string filename;
     std::cout << "Введите имя файла: ";
     std::cin >> filename;
+    
+    if (list.ReadFromFile(filename)) {
+        std::cout << "Данные успешно прочитаны\n";
+        std::cout << "Текущий список: ";
+        list.Print();
+    } else {
+        std::cout << "Ошибка чтения файла!\n";
+    }
+    std::cout << "\n";
 
-    ReadFromFile(list, filename);
+    // 5. Очистка списка
+    std::cout << "5. Очистка списка:\n";
+    list.Clear();
+    std::cout << "Список пуст? " << (list.IsEmpty() ? "Да" : "Нет") << "\n\n";
 
-    std::cout << "Упорядоченный список: ";
+    // 6. Дополнительная демонстрация
+    std::cout << "6. Дополнительная демонстрация:\n";
+    std::cout << "Добавляем 15, 10, 20:\n";
+    list.InsertSorted(15);
+    list.InsertSorted(10);
+    list.InsertSorted(20);
+    std::cout << "Текущий список: ";
+    list.Print();
+    std::cout << "Удаляем 10: " << (list.DeleteValue(10) ? "Успешно" : "Не найдено") << "\n";
+    std::cout << "Текущий список: ";
     list.Print();
 
+    std::cout << "\n=== Программа завершена ===\n";
     return 0;
 }
