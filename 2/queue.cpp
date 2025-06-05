@@ -27,12 +27,12 @@ Queue::~Queue() {
     }
 }
 
-void Queue::initialize() {
+void Queue::Initialize() {
     head = nullptr;
     tail = nullptr;
 }
 
-void Queue::enqueue(int number) {
+void Queue::Enqueue(int number) {
     Node* newNode = new Node;
     newNode->value = number;
     newNode->next = nullptr;
@@ -46,7 +46,7 @@ void Queue::enqueue(int number) {
     }
 }
 
-void Queue::dequeue() {
+void Queue::Dequeue() {
     if (head == nullptr) {
         std::cout << "Очередь пуста!" << std::endl;
         return;
@@ -61,7 +61,7 @@ void Queue::dequeue() {
     }
 }
 
-void Queue::print() {
+void Queue::Print() {
     Node* current = head;
     while (current != nullptr) {
         std::cout << current->value << " ";
@@ -70,7 +70,7 @@ void Queue::print() {
     std::cout << std::endl;
 }
 
-void Queue::printPointers() {
+void Queue::PrintPointers() {
     std::cout << "Адрес начала: " << head;
     if (head != nullptr) {
         std::cout << " (значение: " << head->value << ")";
