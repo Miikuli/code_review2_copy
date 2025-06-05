@@ -65,6 +65,6 @@ void LinkedList::ReadFromFile(const std::string& filename) {
     file.close();
 }
 
-void readFromFile(LinkedList& list, const std::string& filename) {
+void ReadFromFile(LinkedList& list, const std::string& filename) {
     list.readFromFile(filename);
 }
