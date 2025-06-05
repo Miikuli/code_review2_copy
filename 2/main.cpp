@@ -20,8 +20,8 @@
 
 int main() {
     Queue oddQueue, evenQueue;
-    oddQueue.Initialize();
-    evenQueue.Initialize();
+    oddQueue.Initialize(); // Очередь для нечетных позиций
+    evenQueue.Initialize(); // Очередь для четных позиций
 
     std::cout << "Введите 10 чисел:\n";
     for (int i = 1; i <= 10; i++) {
