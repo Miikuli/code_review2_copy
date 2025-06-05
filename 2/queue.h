@@ -57,28 +57,28 @@ public:
     /**
      * @brief Инициализация очереди
      */
-    void initialize();
+    void Initialize();
     
     /**
      * @brief Добавление элемента в конец очереди
      * @param number Значение для добавления
      */
-    void enqueue(int number);
+    void Enqueue(int number);
     
     /**
      * @brief Удаление элемента из начала очереди
      */
-    void dequeue();
+    void Dequeue();
     
     /**
      * @brief Вывод всех элементов очереди
      */
-    void print();
+    void Print();
     
     /**
      * @brief Вывод указателей на начало и конец очереди
      */
-    void printPointers();
+    void PrintPointers();
 };
 
 #endif // QUEUE_H
