@@ -9,77 +9,82 @@
 Во всех задачах обязательно наличие дружественного интерфейса. Ввод данных с клавиатуры.
 */
 
-#ifndef LINKED_LIST_H
-#define LINKED_LIST_H
+#ifndef LINKED_LIST_H_
+#define LINKED_LIST_H_
 
+#include <string>
 #include <iostream>
 #include <fstream>
-#include <string>
 
 /**
- * @class Node
+ * @struct Node
  * @brief Узел связного списка
- * 
- * Содержит данные и указатель на следующий узел
  */
-class Node {
-public:
-    int data;       ///< Значение узла
+struct Node {
+    int data;       ///< Целочисленное значение узла
     Node* next;     ///< Указатель на следующий узел
 
     /**
      * @brief Конструктор узла
-     * @param value Значение для хранения в узле
+     * @param value Значение для узла
      */
-    Node(int value);
+    explicit Node(int value) : data(value), next(nullptr) {}
 };
 
 /**
  * @class LinkedList
- * @brief Класс упорядоченного по убыванию связного списка
- * 
- * Предоставляет операции для работы с упорядоченным списком
+ * @brief Класс упорядоченного списка (по убыванию)
  */
 class LinkedList {
-private:
-    Node* head;     ///< Указатель на начало списка
-
 public:
     /**
-     * @brief Конструктор списка
+     * @brief Конструктор по умолчанию
      */
     LinkedList();
     
     /**
-     * @brief Деструктор списка
-     * 
-     * Освобождает память, занятую узлами списка
+     * @brief Деструктор
      */
     ~LinkedList();
     
     /**
-     * @brief Вставка элемента с сохранением упорядоченности
+     * @brief Вставка элемента с сохранением порядка
      * @param value Значение для вставки
      */
     void InsertSorted(int value);
     
     /**
-     * @brief Вывод элементов списка
+     * @brief Удаление элемента по значению
+     * @param value Значение для удаления
+     * @return true если элемент был найден и удалён, false иначе
      */
-    void Print();
+    bool DeleteValue(int value);
+    
+    /**
+     * @brief Вывод списка в консоль
+     */
+    void Print() const;
+    
+    /**
+     * @brief Проверка на пустоту списка
+     * @return true если список пуст, false иначе
+     */
+    bool IsEmpty() const;
+    
+    /**
+     * @brief Очистка списка
+     */
+    void Clear();
     
     /**
      * @brief Чтение данных из файла
      * @param filename Имя файла для чтения
+     * @return true если файл успешно прочитан, false иначе
      */
-    void ReadFromFile(const std::string& filename);
-    
-    /**
-     * @brief Дружественная функция для чтения из файла
-     * @param list Список для заполнения
-     * @param filename Имя файла для чтения
-     */
-    friend void ReadFromFile(LinkedList& list, const std::string& filename);
+    bool ReadFromFile(const std::string& filename);
+
+private:
+    Node* head;     ///< Указатель на голову списка
 };
 
-#endif // LINKED_LIST_H
+#endif // LINKED_LIST_H_
