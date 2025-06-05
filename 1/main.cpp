@@ -32,16 +32,16 @@ int main() {
         case 1:
             std::cout << "Введите число для добавления в стек: ";
             std::cin >> value;
-            addElementAndPrintAddress(stack, value);
+            AddElementAndPrintAddress(stack, value);
             break;
         case 2:
-            stack.pop();
+            stack.Pop();
             break;
         case 3:
-            stack.print();
+            stack.Print();
             break;
         case 4:
-            stack.clearStack();
+            stack.ClearStack();
             break;
         case 5:
             std::cout << "Выход из программы." << std::endl;
