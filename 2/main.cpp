@@ -19,8 +19,6 @@
 #include <windows.h>
 
 int main() {
-    setlocale(LC_ALL, "Russian");
-
     Queue oddQueue, evenQueue;
     oddQueue.Initialize();
     evenQueue.Initialize();
