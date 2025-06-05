@@ -19,17 +19,17 @@ Node::Node(int value) : data(value), next(nullptr) {}
 Stack::Stack() : top(nullptr) {}
 
 Stack::~Stack() {
-    clearStack();
+    ClearStack();
 }
 
-void Stack::push(int value) {
+void Stack::Push(int value) {
     Node* newNode = new Node(value);
     newNode->next = top;
     top = newNode;
     std::cout << "Элемент " << value << " добавлен в стек." << std::endl;
 }
 
-void Stack::pop() {
+void Stack::Pop() {
     if (top == nullptr) {
         std::cout << "Стек пуст! Невозможно удалить элемент." << std::endl;
         return;
@@ -40,7 +40,7 @@ void Stack::pop() {
     delete temp;
 }
 
-void Stack::print() {
+void Stack::Print() {
     if (top == nullptr) {
         std::cout << "Стек пуст!" << std::endl;
         return;
@@ -54,11 +54,11 @@ void Stack::print() {
     std::cout << std::endl;
 }
 
-Node* Stack::getTop() {
+Node* Stack::GetTop() {
     return top;
 }
 
-void Stack::clearStack() {
+void Stack::ClearStack() {
     while (top != nullptr) {
         Node* temp = top;
         top = top->next;
@@ -67,7 +67,7 @@ void Stack::clearStack() {
     std::cout << "Стек очищен." << std::endl;
 }
 
-void addElementAndPrintAddress(Stack& stack, int D) {
-    stack.push(D);
-    std::cout << "Адрес новой вершины стека: " << stack.getTop() << std::endl;
+void AddElementAndPrintAddress(Stack& stack, int D) {
+    stack.Push(D);
+    std::cout << "Адрес новой вершины стека: " << stack.GetTop() << std::endl;
 }
