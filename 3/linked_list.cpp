@@ -21,7 +21,7 @@ LinkedList::~LinkedList() {
     }
 }
 
-void LinkedList::insertSorted(int value) {
+void LinkedList::InsertSorted(int value) {
     Node* newNode = new Node(value);
     if (head == nullptr || head->data < value) {
         newNode->next = head;
@@ -37,7 +37,7 @@ void LinkedList::insertSorted(int value) {
     }
 }
 
-void LinkedList::print() {
+void LinkedList::Print() {
     Node* current = head;
     while (current != nullptr) {
         std::cout << current->data << " ";
@@ -46,7 +46,7 @@ void LinkedList::print() {
     std::cout << std::endl;
 }
 
-void LinkedList::readFromFile(const std::string& filename) {
+void LinkedList::ReadFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Ошибка открытия файла!" << std::endl;
@@ -59,7 +59,7 @@ void LinkedList::readFromFile(const std::string& filename) {
     int value;
     for (int i = 0; i < N; ++i) {
         file >> value;
-        insertSorted(value);
+        InsertSorted(value);
     }
 
     file.close();
