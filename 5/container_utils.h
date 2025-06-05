@@ -12,8 +12,8 @@
 одноименной функцией-членом контейнера).
 */
 
-#ifndef CONTAINER_UTILS_H
-#define CONTAINER_UTILS_H
+#ifndef CONTAINERS_H
+#define CONTAINERS_H
 
 #include <vector>
 #include <deque>
@@ -21,32 +21,68 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <cstdlib>
 #include <algorithm>
+#include <iterator>
 
 /**
- * @brief Заполнение контейнера данными
- * @tparam Container Тип контейнера
- * @param container Контейнер для заполнения
- * @param size Размер контейнера (должен быть ≥ 2 и четным)
- * @return true при успешном заполнении, false при ошибке
+ * @class ContainerUtils
+ * @brief Класс-утилита для работы с контейнерами STL
+ * 
+ * Предоставляет методы для заполнения, вывода и обработки контейнеров.
+ * Поддерживает три типа контейнеров: vector, deque и list.
  */
-template <typename Container>
-bool FillContainer(Container& container, size_t size);
+class ContainerUtils {
+public:
+    /**
+     * @enum InputMethod
+     * @brief Методы ввода данных в контейнер
+     */
+    enum InputMethod { 
+        KEYBOARD = 1,   ///< Ввод с клавиатуры
+        RANDOM = 2,     ///< Генерация случайных чисел
+        FILE_INPUT = 3  ///< Чтение из файла
+    };
 
-/**
- * @brief Вывод элементов контейнера
- * @tparam Container Тип контейнера
- * @param container Контейнер для вывода
- */
-template <typename Container>
-void PrintContainer(const Container& container);
+    /**
+     * @brief Заполняет контейнер данными
+     * @tparam Container Тип контейнера (vector, deque или list)
+     * @param[out] container Контейнер для заполнения
+     * @param[in] size Количество элементов (должно быть четным и >= 2)
+     * @param[in] method Метод ввода данных (KEYBOARD, RANDOM или FILE_INPUT)
+     * @return true при успешном заполнении, false при ошибке
+     * 
+     * @note При FILE_INPUT данные читаются из файла "input.txt"
+     */
+    template<typename Container>
+    static bool FillContainer(Container& container, size_t size, InputMethod method);
 
-/**
- * @brief Обмен значений двух средних элементов
- * @tparam Container Тип контейнера
- * @param container Контейнер для обработки
- */
-template <typename Container>
-void SwapMiddleElements(Container& container);
+    /**
+     * @brief Выводит элементы контейнера
+     * @tparam Container Тип контейнера (vector, deque или list)
+     * @param[in] container Контейнер для вывода
+     */
+    template<typename Container>
+    static void PrintContainer(const Container& container);
 
-#endif // CONTAINER_UTILS_H
+    /**
+     * @brief Выводит элементы контейнера в обратном порядке
+     * @tparam Container Тип контейнера (vector, deque или list)
+     * @param[in] container Контейнер для вывода
+     */
+    template<typename Container>
+    static void PrintReverse(const Container& container);
+
+    /**
+     * @brief Меняет местами два средних элемента контейнера
+     * @tparam Container Тип контейнера (vector, deque или list)
+     * @param[in,out] container Контейнер для обработки
+     * @return true при успешном выполнении, false при ошибке
+     * 
+     * @note Использует алгоритм std::iter_swap для обмена элементов
+     */
+    template<typename Container>
+    static bool SwapMiddleElements(Container& container);
+};
+
+#endif // CONTAINERS_H
