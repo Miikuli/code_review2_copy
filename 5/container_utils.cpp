@@ -13,6 +13,7 @@
 */
 
 #include "containers.h"
+#include <limits>
 
 template<typename Container>
 bool ContainerUtils::FillContainer(Container& container, size_t size, InputMethod method) {
@@ -104,10 +105,13 @@ bool ContainerUtils::SwapMiddleElements(Container& container) {
     }
 
     try {
-        auto mid1 = container.begin();
+        // Явно указываем тип итератора
+        typename Container::iterator mid1 = container.begin();
         std::advance(mid1, container.size()/2 - 1);
-        auto mid2 = mid1;
+        
+        typename Container::iterator mid2 = mid1;
         std::advance(mid2, 1);
+        
         std::iter_swap(mid1, mid2);
         return true;
     } catch (...) {
